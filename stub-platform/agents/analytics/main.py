@@ -24,10 +24,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
 from shared.auth_middleware import verify_jwt_token
 from shared.models import HealthResponse, InvokeRequest, InvokeResponse
+from shared.openapi_utils import enrich_openapi
 from . import responses  # noqa: E402
 
 
 AGENT_NAME = os.environ.get("AGENT_NAME", "analytics-agent")
+_PORT = int(os.environ.get("PORT", "8003"))
 
 app = FastAPI(
     title="Analytics Agent Stub",
@@ -38,6 +40,8 @@ app = FastAPI(
     version="1.0.0",
     openapi_url="/openapi.json",
 )
+
+enrich_openapi(app, agent_name=AGENT_NAME, port=_PORT)
 
 
 @app.get("/health", tags=["ops"])
