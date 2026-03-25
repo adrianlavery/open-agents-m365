@@ -109,7 +109,7 @@ Response flows back to user
 M365 Copilot *already is* a super agent. Map your existing orchestration directly:
 
 ```
-M365 Copilot (BizChat / Teams / Word)
+M365 Copilot (M365 Copilot Chat / Teams / Word)
     │
     ▼
 Declarative Agent: "Super Agent"

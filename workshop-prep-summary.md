@@ -85,7 +85,7 @@ The client keeps agents on AWS and GCP. M365 Copilot calls them as API plugins v
 **Why this is the best starting point:**
 - **Zero re-platforming** — client agents stay on AWS/GCP untouched
 - **Copilot orchestrates** — M365 Copilot decides when to invoke client agents based on user intent
-- **Works across all M365 surfaces** — Teams, Word, PPT, Excel, Outlook, BizChat
+- **Works across all M365 surfaces** — Teams, Word, PPT, Excel, Outlook, M365 Copilot Chat
 - **Fast to prototype** — days, not months
 
 **What the client needs to provide:**
@@ -221,7 +221,7 @@ Rebuild agents natively in Azure AI Foundry (formerly Azure AI Studio).
 For the "Super Agent" concept (an orchestrator that routes to specialized sub-agents), there's a clean M365 mapping:
 
 ```
-M365 Copilot (BizChat / Teams / Word / PPT)
+M365 Copilot (M365 Copilot Chat / Teams / Word / PPT)
     │
     ▼
 Declarative Agent: "Super Agent"
@@ -287,7 +287,7 @@ Response flows back up
 
 1. **Start with a demo ask**: "Can we see an agent invoked via REST API today?" — if yes, Pattern A is immediately viable.
 
-2. **Define the MVP surface**: Recommend starting with **Teams + M365 Copilot BizChat** — these have the richest plugin support. Word/PPT/Excel Copilot support for plugins is more constrained.
+2. **Define the MVP surface**: Recommend starting with **Teams + M365 Copilot Chat** — these have the richest plugin support. Word/PPT/Excel Copilot support for plugins is more constrained.
 
 3. **Auth is the longest pole**: Get clarity on the client's current auth model early. Everything else is configuration.
 

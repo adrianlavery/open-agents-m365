@@ -90,11 +90,11 @@ of scope for this project.
 - Integration MUST use M365-native constructs: Declarative Agents, API Plugins, Adaptive Cards,
   and/or the M365 Agents SDK.
 - Response formats MUST be appropriate to the M365 surface (e.g., Adaptive Cards in Teams,
-  text responses in Copilot BizChat where cards are not supported).
+  text responses in Copilot Chat where cards are not supported).
 - No new standalone web or desktop UIs MUST be created as deliverables of this project.
 
 **Rationale**: The goal is to bring agents *into* M365 — not to build adjacent experiences. M365-native
-delivery maximises reach across all surfaces (Teams, Word, PPT, Excel, Outlook, BizChat) with a
+delivery maximises reach across all surfaces (Teams, Word, PPT, Excel, Outlook, M365 Copilot Chat) with a
 single integration.
 
 ### VI. Documentation-Driven Development
