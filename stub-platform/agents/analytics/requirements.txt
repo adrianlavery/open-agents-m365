@@ -3,3 +3,4 @@ uvicorn[standard]
 python-jose[cryptography]
 cryptography
 pydantic>=2.0
+httpx
