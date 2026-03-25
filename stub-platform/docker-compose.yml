@@ -1,0 +1,116 @@
+# Open Agents M365 — Local Stub Platform
+#
+# Prerequisites:
+#   1. Generate RSA key pair in stub-platform/keys/ (see keys/README.md):
+#      openssl genrsa -out keys/private.pem 2048
+#      openssl rsa -in keys/private.pem -pubout -out keys/public.pem
+#
+# Usage:
+#   docker compose up --build        # start all services
+#   docker compose up --build -d     # start in background
+#   docker compose down              # stop and remove containers
+#
+# Services:
+#   auth-stub        http://localhost:8000
+#   creative-agent   http://localhost:8001
+#   media-agent      http://localhost:8002
+#   analytics-agent  http://localhost:8003
+
+services:
+
+  auth-stub:
+    build:
+      context: .
+      dockerfile: auth/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./keys:/keys:ro
+    environment:
+      PRIVATE_KEY_PATH: /keys/private.pem
+      PUBLIC_KEY_PATH: /keys/public.pem
+      ISSUER: http://localhost:8000
+      AUDIENCE: agents
+      TOKEN_EXPIRY_SECONDS: "3600"
+      PORT: "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  creative-agent:
+    build:
+      context: .
+      dockerfile: agents/creative/Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./keys:/keys:ro
+    environment:
+      AGENT_NAME: creative-agent
+      AGENT_PUBLIC_KEY_PATH: /keys/public.pem
+      OIDC_ISSUER: http://localhost:8000
+      JWT_AUDIENCE: agents
+      JWT_ALGORITHM: RS256
+      PORT: "8001"
+    depends_on:
+      auth-stub:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  media-agent:
+    build:
+      context: .
+      dockerfile: agents/media/Dockerfile
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./keys:/keys:ro
+    environment:
+      AGENT_NAME: media-agent
+      AGENT_PUBLIC_KEY_PATH: /keys/public.pem
+      OIDC_ISSUER: http://localhost:8000
+      JWT_AUDIENCE: agents
+      JWT_ALGORITHM: RS256
+      PORT: "8002"
+    depends_on:
+      auth-stub:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  analytics-agent:
+    build:
+      context: .
+      dockerfile: agents/analytics/Dockerfile
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./keys:/keys:ro
+    environment:
+      AGENT_NAME: analytics-agent
+      AGENT_PUBLIC_KEY_PATH: /keys/public.pem
+      OIDC_ISSUER: http://localhost:8000
+      JWT_AUDIENCE: agents
+      JWT_ALGORITHM: RS256
+      PORT: "8003"
+    depends_on:
+      auth-stub:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

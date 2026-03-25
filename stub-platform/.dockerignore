@@ -1,0 +1,25 @@
+# Never bake private keys into images — they're mounted as volumes at runtime
+keys/private.pem
+keys/public.pem
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Environment files
+.env
+.env.*
+
+# Test output
+htmlcov/
+.coverage
+
+# Editor artifacts
+.DS_Store
+.vscode/
+.idea/
