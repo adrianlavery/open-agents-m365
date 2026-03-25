@@ -112,7 +112,7 @@ description: "Task list for Local Stub Agent Platform implementation"
 
 **Independent Test**: Fresh venv, `pip install -r requirements.txt`, start each service with `uvicorn` per README instructions — all four services healthy.
 
-- [ ] T030 Create `stub-platform/README.md` with: (1) project overview and port map table, (2) RSA key generation commands, (3) Docker Compose quickstart (all steps from `specs/001-stub-agent-platform/quickstart.md` Docker path), (4) Python/uvicorn non-Docker path (all steps from quickstart.md Option B), (5) curl examples: obtain token, invoke all three agents, test auth rejection, inspect OpenAPI spec and OIDC discovery — SC-001 compliance gate
+- [x] T030 Create `stub-platform/README.md` with: (1) project overview and port map table, (2) RSA key generation commands, (3) Docker Compose quickstart (all steps from `specs/001-stub-agent-platform/quickstart.md` Docker path), (4) Python/uvicorn non-Docker path (all steps from quickstart.md Option B), (5) curl examples: obtain token, invoke all three agents, test auth rejection, inspect OpenAPI spec and OIDC discovery — SC-001 compliance gate
 
 **Checkpoint**: Any developer can follow README start-to-finish and have a working platform. User Story 4 complete.
 
@@ -122,9 +122,9 @@ description: "Task list for Local Stub Agent Platform implementation"
 
 **Purpose**: Auth code flow edge cases, error handling hardening, and end-to-end validation.
 
-- [ ] T031 [P] Add `GET /authorize` OAuth2 authorization code flow endpoint to `stub-platform/auth/main.py` — add in-memory (dict) short-lived code store with expiry checking to support T029; ensure codes are single-use and expire after 60 seconds
-- [ ] T032 [P] Harden error handling in `stub-platform/shared/auth_middleware.py`: ensure wrong-key-signature errors (JWTError with signature mismatch) return 401 not 500; ensure all `python-jose` exceptions are caught and mapped to appropriate 401 responses with detail messages matching `specs/001-stub-agent-platform/data-model.md` state transitions
-- [ ] T033 [P] Add `AGENT_JWKS_URI` support to `stub-platform/shared/auth_middleware.py`: if `AGENT_JWKS_URI` env var is set, fetch JWKS from that URL on startup (cache the keys), use fetched keys for validation instead of local PEM file — this is the IdP-swap mechanism (SC-006, FR-011)
+- [x] T031 [P] Add `GET /authorize` OAuth2 authorization code flow endpoint to `stub-platform/auth/main.py` — add in-memory (dict) short-lived code store with expiry checking to support T029; ensure codes are single-use and expire after 60 seconds
+- [x] T032 [P] Harden error handling in `stub-platform/shared/auth_middleware.py`: ensure wrong-key-signature errors (JWTError with signature mismatch) return 401 not 500; ensure all `python-jose` exceptions are caught and mapped to appropriate 401 responses with detail messages matching `specs/001-stub-agent-platform/data-model.md` state transitions
+- [x] T033 [P] Add `AGENT_JWKS_URI` support to `stub-platform/shared/auth_middleware.py`: if `AGENT_JWKS_URI` env var is set, fetch JWKS from that URL on startup (cache the keys), use fetched keys for validation instead of local PEM file — this is the IdP-swap mechanism (SC-006, FR-011)
 - [ ] T034 Run `docker compose up --build` end-to-end and validate: (1) all health checks green, (2) token issuance works, (3) all three agents respond to `/invoke`, (4) 401s returned for missing/bad tokens, (5) `/openapi.json` accessible on each agent, (6) OIDC discovery and JWKS accessible — verify against all SC-001 through SC-006
 
 ---
