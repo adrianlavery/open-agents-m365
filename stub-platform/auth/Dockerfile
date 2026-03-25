@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy auth service source (clients.py + main.py → /app/)
 # "from clients import REGISTERED_CLIENTS" resolves because /app is the working dir.
+COPY shared/ /app/shared/
 COPY auth/ /app/
 
 EXPOSE 8000
